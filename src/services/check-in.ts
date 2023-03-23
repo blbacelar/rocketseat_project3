@@ -3,7 +3,6 @@ import { CheckinRepository } from '@/repositories/checkin-repository'
 import { GymsRepository } from '@/repositories/gyms-repository'
 import { getDistanceBetweenCoordinates } from '@/utils/get-distance-between-coordinates'
 import { Checkin } from '@prisma/client'
-import { Decimal } from '@prisma/client/runtime'
 import { MaxDistanceError } from './errors/max-distance-error'
 import { MaxNumberOfCheckinsError } from './errors/max-numbers-checkins-error'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
@@ -11,8 +10,8 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error'
 interface CheckinUserRequest {
   userId: string
   gymId: string
-  userLatitude: Decimal
-  userLongitude: Decimal
+  userLatitude: number
+  userLongitude: number
 }
 
 interface CheckinUserResponse {
@@ -39,8 +38,8 @@ export class CheckinUser {
 
     const distance = getDistanceBetweenCoordinates(
       {
-        latitude: userLatitude.toNumber(),
-        longitude: userLongitude.toNumber(),
+        latitude: userLatitude,
+        longitude: userLongitude,
       },
       {
         latitude: gym.latitude.toNumber(),
